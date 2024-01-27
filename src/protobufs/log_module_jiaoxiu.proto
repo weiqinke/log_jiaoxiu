@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package log_module_jiaoxiu;
+
+service LogService {
+  rpc GetLoginLogs (TimeFrame) returns (LoginLogs);
+  rpc UpdateAllIpAddrs(UserUid) returns(Response);
+}
+
+message UserUid {
+  string uid = 1;
+}
+
+message Response {
+  int32 code = 1;
+  string message = 2;
+}
+
+message TimeFrame {
+  string st = 1;
+  string et = 2;
+}
+
+message LoginLogs {
+  int32 code = 1;
+  string message = 2;
+  repeated LoginLog data = 3;
+}
+
+message LoginLog{
+  int32 id = 1;
+  string uid = 2;
+  string name = 3;
+  string os = 4;
+  string client = 5;
+  string bowser = 6;
+  string host = 7;
+  string country = 8;
+  string city = 9;
+  string created = 10;
+}

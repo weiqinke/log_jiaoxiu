@@ -1,0 +1,19 @@
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
+import { LogService } from './log.service';
+
+@Controller()
+export class LogController {
+  constructor(private readonly logService: LogService) {}
+  // 如下两个参数都是对应proto文件的内容，两个都可以省略，nestjs会自动转换名字大小写去匹配
+  @GrpcMethod('LogService', 'GetLoginLogs')
+  async GetLoginLogs(payload): Promise<any> {
+    const data = await this.logService.getLoginLogs(payload);
+    return { code: 200, message: '', data };
+  }
+  @GrpcMethod('LogService', 'UpdateAllIpAddrs')
+  async UpdateAllIpAddrs(): Promise<any> {
+    this.logService.updateAllIpAddrs();
+    return { code: 200, message: '正在更新中' };
+  }
+}
