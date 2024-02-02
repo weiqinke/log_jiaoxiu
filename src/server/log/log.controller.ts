@@ -6,14 +6,19 @@ import { LogService } from './log.service';
 export class LogController {
   constructor(private readonly logService: LogService) {}
   // 如下两个参数都是对应proto文件的内容，两个都可以省略，nestjs会自动转换名字大小写去匹配
-  @GrpcMethod('LogService', 'GetLoginLogs')
+  @GrpcMethod('LogService')
   async GetLoginLogs(payload): Promise<any> {
     const data = await this.logService.getLoginLogs(payload);
     return { code: 200, message: '', data };
   }
-  @GrpcMethod('LogService', 'UpdateAllIpAddrs')
+  @GrpcMethod('LogService')
   async UpdateAllIpAddrs(): Promise<any> {
     this.logService.updateAllIpAddrs();
     return { code: 200, message: '正在更新中' };
+  }
+  @GrpcMethod('LogService')
+  async SaveLoginLog(payload: any): Promise<any> {
+    await this.logService.saveLoginLog(payload);
+    return { code: 200, message: '操作成功' };
   }
 }

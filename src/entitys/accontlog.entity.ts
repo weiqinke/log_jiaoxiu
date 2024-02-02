@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('accontlog')
-export class AccontLogEntity {
+export class AccontlogEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,10 +12,16 @@ export class AccontLogEntity {
   name: string;
 
   @Column({
-    comment: '账号唯一ID',
+    comment: '登录账号',
     default: '',
   })
-  uid: string;
+  loginName: string;
+
+  @Column({
+    type: 'bigint',
+    default: 0,
+  })
+  uid: number;
 
   @Column({
     comment: 'user os',
@@ -37,9 +43,9 @@ export class AccontLogEntity {
 
   @Column({
     comment: '分析IP状态',
-    default: '1',
+    default: 1,
   })
-  status: string;
+  status: number;
 
   @Column({
     comment: '归属地国家',

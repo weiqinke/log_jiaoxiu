@@ -5,10 +5,74 @@ package log_module_jiaoxiu;
 service LogService {
   rpc GetLoginLogs (TimeFrame) returns (LoginLogs);
   rpc UpdateAllIpAddrs(UserUid) returns(Response);
+  rpc SaveLoginLog(LoginLog) returns (LoginLogs);
+}
+
+service NoticeService {
+  rpc UserNotice(UserUid) returns(UserNoticeResponse);
+}
+
+service PlacardService {
+  rpc UserPlacard(PlacardItem) returns(UserPlacardResponse);
+  rpc Placard(PlacardItem) returns(UserPlacardResponse);
+  rpc FindPlacard(PlacardItem) returns(UserPlacardResponse);
+  rpc PlacardCreate(PlacardItem) returns(StringDataResponse);
+  rpc PlacardUpdate(PlacardItem) returns(StringDataResponse);
+  rpc PlacardPush(PlacardItem) returns(StringDataResponse);
+  rpc PlacardSubmit(PlacardItem) returns(StringDataResponse);
+}
+
+message StringDataResponse {
+  int32 code = 1;
+  string message = 2;
+  string data = 3;
+}
+
+message UserPlacardResponse{
+  int32 code =1;
+  string message =2;
+  repeated PlacardItem data=3;
+}
+
+message PlacardItem{
+  int32 id=1;
+  double origin =2;
+  double placardid = 3;
+  string title = 4;
+  string type = 5;
+  string description = 6;
+  string status = 7;
+  int32 deleted =8;
+  string broadcastime = 9;
+  string created = 10;
+  double uid =11;
+}
+
+message UserNoticeResponse{
+  int32 code =1;
+  string message =2;
+  repeated Notice data=3;
+}
+
+message Notice {
+  int32 id =1;
+  string noticeid =2;
+  string origin =3;
+  string originUid =4;
+  string receiver =5;
+  string receiverUid =6;
+  string title =7;
+  string type =8;
+  string description =9;
+  string status =10;
+  string extra =11;
+  int32 read =12;
+  int32 deleted =13;
+  string created = 14;
 }
 
 message UserUid {
-  string uid = 1;
+  double uid = 1;
 }
 
 message Response {
@@ -29,7 +93,7 @@ message LoginLogs {
 
 message LoginLog{
   int32 id = 1;
-  string uid = 2;
+  double uid = 2;
   string name = 3;
   string os = 4;
   string client = 5;
@@ -38,4 +102,8 @@ message LoginLog{
   string country = 8;
   string city = 9;
   string created = 10;
+  string ip = 11;
+  string useragent = 12;
+  string loginName = 13;
+  string province = 14;
 }
