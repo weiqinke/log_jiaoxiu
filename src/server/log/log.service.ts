@@ -1,3 +1,4 @@
+import { ApistatisticsEntity } from '@/entitys/apistatistics.entity';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,6 +19,9 @@ export class LogService {
     private dataSource: DataSource,
     @InjectRepository(AccontlogEntity)
     private readonly userRepo: Repository<AccontlogEntity>,
+
+    @InjectRepository(ApistatisticsEntity)
+    private readonly ApiSticsEntity: Repository<ApistatisticsEntity>,
   ) {}
 
   // 获取用户登录日志
@@ -91,6 +95,24 @@ export class LogService {
   async saveLoginLog(data) {
     if (!data.ip) return;
     this.updateIPAddrd(data.ip, data);
+  }
+
+  async apistatistics(payload) {
+    const { st = new Date(), et = new Date() } = payload;
+    const created = dayjs(st).format('YYYY-MM-DD 00:00:00');
+    const etTime = dayjs(et).format('YYYY-MM-DD 23:59:59');
+    const sqldata = await this.dataSource
+      .getRepository(ApistatisticsEntity)
+      .createQueryBuilder('log')
+      .where('log.created >= :created', { created })
+      .andWhere('log.created <= :etTime', { etTime })
+      .getMany();
+    return sqldata;
+  }
+
+  async saveApistatistics(data) {
+    await this.ApiSticsEntity.save(data);
+    return true;
   }
 
   checkIsInsideIP(ip: string) {

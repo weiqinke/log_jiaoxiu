@@ -21,4 +21,15 @@ export class LogController {
     await this.logService.saveLoginLog(payload);
     return { code: 200, message: '操作成功' };
   }
+  @GrpcMethod('LogService')
+  async SaveApistatistics(payload: any): Promise<any> {
+    await this.logService.saveApistatistics(payload);
+    return { code: 200, message: '操作成功' };
+  }
+
+  @GrpcMethod('LogService')
+  async Apistatistics(payload: any): Promise<any> {
+    const data = await this.logService.apistatistics(payload);
+    return { code: 200, message: '操作成功', data };
+  }
 }

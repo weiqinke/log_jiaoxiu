@@ -1,4 +1,5 @@
 import { AccontlogEntity } from '@/entitys/accontlog.entity';
+import { ApistatisticsEntity } from '@/entitys/apistatistics.entity';
 import { NoticeEntity } from '@/entitys/notice.entity';
 import { PlacardEntity } from '@/entitys/placard.entity';
 import { ProfileEntity } from '@/entitys/profile.entity';
@@ -31,10 +32,11 @@ import { PlacardService } from './placard/placard.service';
       username: process.env.DATABASE_username,
       password: process.env.DATABASE_password,
       database: process.env.DATABASE_database,
-      entities: [AccontlogEntity, NoticeEntity, PlacardEntity, UserEntity, ProfileEntity],
-      synchronize: true,
+      entities: [AccontlogEntity, NoticeEntity, PlacardEntity, UserEntity, ProfileEntity, ApistatisticsEntity],
+      synchronize: false,
+      autoLoadEntities: true,
     }),
-    TypeOrmModule.forFeature([AccontlogEntity, NoticeEntity, PlacardEntity, UserEntity, ProfileEntity]),
+    TypeOrmModule.forFeature([AccontlogEntity, NoticeEntity, PlacardEntity, UserEntity, ProfileEntity, ApistatisticsEntity]),
     HttpModule,
   ],
   controllers: [LogController, NoticeController, PlacardController],

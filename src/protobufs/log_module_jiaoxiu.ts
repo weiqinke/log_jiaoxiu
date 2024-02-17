@@ -3,6 +3,22 @@ import * as _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "log_module_jiaoxiu";
 
+export interface StatisticsLogResponse {
+  code: number;
+  message: string;
+  data: StatisticsLog[];
+}
+
+export interface StatisticsLog {
+  id: number;
+  url: string;
+  method: string;
+  status: number;
+  created: string;
+  st: string;
+  et: string;
+}
+
 export interface StringDataResponse {
   code: number;
   message: string;
@@ -88,6 +104,244 @@ export interface LoginLog {
   loginName: string;
   province: string;
 }
+
+function createBaseStatisticsLogResponse(): StatisticsLogResponse {
+  return { code: 0, message: "", data: [] };
+}
+
+export const StatisticsLogResponse = {
+  encode(message: StatisticsLogResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    for (const v of message.data) {
+      StatisticsLog.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): StatisticsLogResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStatisticsLogResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.data.push(StatisticsLog.decode(reader, reader.uint32()));
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StatisticsLogResponse {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      data: globalThis.Array.isArray(object?.data) ? object.data.map((e: any) => StatisticsLog.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: StatisticsLogResponse): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.data?.length) {
+      obj.data = message.data.map((e) => StatisticsLog.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StatisticsLogResponse>, I>>(base?: I): StatisticsLogResponse {
+    return StatisticsLogResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StatisticsLogResponse>, I>>(object: I): StatisticsLogResponse {
+    const message = createBaseStatisticsLogResponse();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.data = object.data?.map((e) => StatisticsLog.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseStatisticsLog(): StatisticsLog {
+  return { id: 0, url: "", method: "", status: 0, created: "", st: "", et: "" };
+}
+
+export const StatisticsLog = {
+  encode(message: StatisticsLog, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).int32(message.id);
+    }
+    if (message.url !== "") {
+      writer.uint32(18).string(message.url);
+    }
+    if (message.method !== "") {
+      writer.uint32(26).string(message.method);
+    }
+    if (message.status !== 0) {
+      writer.uint32(32).int32(message.status);
+    }
+    if (message.created !== "") {
+      writer.uint32(42).string(message.created);
+    }
+    if (message.st !== "") {
+      writer.uint32(50).string(message.st);
+    }
+    if (message.et !== "") {
+      writer.uint32(58).string(message.et);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): StatisticsLog {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStatisticsLog();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.id = reader.int32();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.url = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.method = reader.string();
+          continue;
+        case 4:
+          if (tag !== 32) {
+            break;
+          }
+
+          message.status = reader.int32();
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.created = reader.string();
+          continue;
+        case 6:
+          if (tag !== 50) {
+            break;
+          }
+
+          message.st = reader.string();
+          continue;
+        case 7:
+          if (tag !== 58) {
+            break;
+          }
+
+          message.et = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StatisticsLog {
+    return {
+      id: isSet(object.id) ? globalThis.Number(object.id) : 0,
+      url: isSet(object.url) ? globalThis.String(object.url) : "",
+      method: isSet(object.method) ? globalThis.String(object.method) : "",
+      status: isSet(object.status) ? globalThis.Number(object.status) : 0,
+      created: isSet(object.created) ? globalThis.String(object.created) : "",
+      st: isSet(object.st) ? globalThis.String(object.st) : "",
+      et: isSet(object.et) ? globalThis.String(object.et) : "",
+    };
+  },
+
+  toJSON(message: StatisticsLog): unknown {
+    const obj: any = {};
+    if (message.id !== 0) {
+      obj.id = Math.round(message.id);
+    }
+    if (message.url !== "") {
+      obj.url = message.url;
+    }
+    if (message.method !== "") {
+      obj.method = message.method;
+    }
+    if (message.status !== 0) {
+      obj.status = Math.round(message.status);
+    }
+    if (message.created !== "") {
+      obj.created = message.created;
+    }
+    if (message.st !== "") {
+      obj.st = message.st;
+    }
+    if (message.et !== "") {
+      obj.et = message.et;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StatisticsLog>, I>>(base?: I): StatisticsLog {
+    return StatisticsLog.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StatisticsLog>, I>>(object: I): StatisticsLog {
+    const message = createBaseStatisticsLog();
+    message.id = object.id ?? 0;
+    message.url = object.url ?? "";
+    message.method = object.method ?? "";
+    message.status = object.status ?? 0;
+    message.created = object.created ?? "";
+    message.st = object.st ?? "";
+    message.et = object.et ?? "";
+    return message;
+  },
+};
 
 function createBaseStringDataResponse(): StringDataResponse {
   return { code: 0, message: "", data: "" };
@@ -1413,6 +1667,8 @@ export interface LogService {
   GetLoginLogs(request: TimeFrame): Promise<LoginLogs>;
   UpdateAllIpAddrs(request: UserUid): Promise<Response>;
   SaveLoginLog(request: LoginLog): Promise<LoginLogs>;
+  Apistatistics(request: StatisticsLog): Promise<StatisticsLogResponse>;
+  SaveApistatistics(request: StatisticsLog): Promise<LoginLogs>;
 }
 
 export const LogServiceServiceName = "log_module_jiaoxiu.LogService";
@@ -1425,6 +1681,8 @@ export class LogServiceClientImpl implements LogService {
     this.GetLoginLogs = this.GetLoginLogs.bind(this);
     this.UpdateAllIpAddrs = this.UpdateAllIpAddrs.bind(this);
     this.SaveLoginLog = this.SaveLoginLog.bind(this);
+    this.Apistatistics = this.Apistatistics.bind(this);
+    this.SaveApistatistics = this.SaveApistatistics.bind(this);
   }
   GetLoginLogs(request: TimeFrame): Promise<LoginLogs> {
     const data = TimeFrame.encode(request).finish();
@@ -1441,6 +1699,18 @@ export class LogServiceClientImpl implements LogService {
   SaveLoginLog(request: LoginLog): Promise<LoginLogs> {
     const data = LoginLog.encode(request).finish();
     const promise = this.rpc.request(this.service, "SaveLoginLog", data);
+    return promise.then((data) => LoginLogs.decode(_m0.Reader.create(data)));
+  }
+
+  Apistatistics(request: StatisticsLog): Promise<StatisticsLogResponse> {
+    const data = StatisticsLog.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Apistatistics", data);
+    return promise.then((data) => StatisticsLogResponse.decode(_m0.Reader.create(data)));
+  }
+
+  SaveApistatistics(request: StatisticsLog): Promise<LoginLogs> {
+    const data = StatisticsLog.encode(request).finish();
+    const promise = this.rpc.request(this.service, "SaveApistatistics", data);
     return promise.then((data) => LoginLogs.decode(_m0.Reader.create(data)));
   }
 }
