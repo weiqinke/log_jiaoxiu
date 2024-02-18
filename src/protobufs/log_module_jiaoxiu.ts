@@ -9,6 +9,17 @@ export interface StatisticsLogResponse {
   data: StatisticsLog[];
 }
 
+export interface ApiCountResponse {
+  code: number;
+  message: string;
+  data: apiCount | undefined;
+}
+
+export interface apiCount {
+  total: number;
+  today: number;
+}
+
 export interface StatisticsLog {
   id: number;
   url: string;
@@ -190,6 +201,169 @@ export const StatisticsLogResponse = {
     message.code = object.code ?? 0;
     message.message = object.message ?? "";
     message.data = object.data?.map((e) => StatisticsLog.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseApiCountResponse(): ApiCountResponse {
+  return { code: 0, message: "", data: undefined };
+}
+
+export const ApiCountResponse = {
+  encode(message: ApiCountResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.data !== undefined) {
+      apiCount.encode(message.data, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ApiCountResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseApiCountResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.data = apiCount.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ApiCountResponse {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      data: isSet(object.data) ? apiCount.fromJSON(object.data) : undefined,
+    };
+  },
+
+  toJSON(message: ApiCountResponse): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.data !== undefined) {
+      obj.data = apiCount.toJSON(message.data);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ApiCountResponse>, I>>(base?: I): ApiCountResponse {
+    return ApiCountResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ApiCountResponse>, I>>(object: I): ApiCountResponse {
+    const message = createBaseApiCountResponse();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.data = (object.data !== undefined && object.data !== null) ? apiCount.fromPartial(object.data) : undefined;
+    return message;
+  },
+};
+
+function createBaseapiCount(): apiCount {
+  return { total: 0, today: 0 };
+}
+
+export const apiCount = {
+  encode(message: apiCount, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.total !== 0) {
+      writer.uint32(8).int32(message.total);
+    }
+    if (message.today !== 0) {
+      writer.uint32(16).int32(message.today);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): apiCount {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseapiCount();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.total = reader.int32();
+          continue;
+        case 2:
+          if (tag !== 16) {
+            break;
+          }
+
+          message.today = reader.int32();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): apiCount {
+    return {
+      total: isSet(object.total) ? globalThis.Number(object.total) : 0,
+      today: isSet(object.today) ? globalThis.Number(object.today) : 0,
+    };
+  },
+
+  toJSON(message: apiCount): unknown {
+    const obj: any = {};
+    if (message.total !== 0) {
+      obj.total = Math.round(message.total);
+    }
+    if (message.today !== 0) {
+      obj.today = Math.round(message.today);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<apiCount>, I>>(base?: I): apiCount {
+    return apiCount.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<apiCount>, I>>(object: I): apiCount {
+    const message = createBaseapiCount();
+    message.total = object.total ?? 0;
+    message.today = object.today ?? 0;
     return message;
   },
 };
@@ -1669,6 +1843,7 @@ export interface LogService {
   SaveLoginLog(request: LoginLog): Promise<LoginLogs>;
   Apistatistics(request: StatisticsLog): Promise<StatisticsLogResponse>;
   SaveApistatistics(request: StatisticsLog): Promise<LoginLogs>;
+  ApiCount(request: StatisticsLog): Promise<ApiCountResponse>;
 }
 
 export const LogServiceServiceName = "log_module_jiaoxiu.LogService";
@@ -1683,6 +1858,7 @@ export class LogServiceClientImpl implements LogService {
     this.SaveLoginLog = this.SaveLoginLog.bind(this);
     this.Apistatistics = this.Apistatistics.bind(this);
     this.SaveApistatistics = this.SaveApistatistics.bind(this);
+    this.ApiCount = this.ApiCount.bind(this);
   }
   GetLoginLogs(request: TimeFrame): Promise<LoginLogs> {
     const data = TimeFrame.encode(request).finish();
@@ -1712,6 +1888,12 @@ export class LogServiceClientImpl implements LogService {
     const data = StatisticsLog.encode(request).finish();
     const promise = this.rpc.request(this.service, "SaveApistatistics", data);
     return promise.then((data) => LoginLogs.decode(_m0.Reader.create(data)));
+  }
+
+  ApiCount(request: StatisticsLog): Promise<ApiCountResponse> {
+    const data = StatisticsLog.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ApiCount", data);
+    return promise.then((data) => ApiCountResponse.decode(_m0.Reader.create(data)));
   }
 }
 

@@ -110,6 +110,22 @@ export class LogService {
     return sqldata;
   }
 
+  async apiCount(payload) {
+    payload;
+    const st = new Date();
+    const et = new Date();
+    const created = dayjs(st).format('YYYY-MM-DD 00:00:00');
+    const etTime = dayjs(et).format('YYYY-MM-DD 23:59:59');
+    const total = await this.ApiSticsEntity.count();
+    const today = await this.dataSource
+      .getRepository(ApistatisticsEntity)
+      .createQueryBuilder('log')
+      .where('log.created >= :created', { created })
+      .andWhere('log.created <= :etTime', { etTime })
+      .getCount();
+    return { total, today };
+  }
+
   async saveApistatistics(data) {
     await this.ApiSticsEntity.save(data);
     return true;

@@ -8,6 +8,7 @@ service LogService {
   rpc SaveLoginLog(LoginLog) returns (LoginLogs);
   rpc Apistatistics(StatisticsLog) returns (StatisticsLogResponse);
   rpc SaveApistatistics(StatisticsLog) returns (LoginLogs);
+  rpc ApiCount(StatisticsLog) returns (ApiCountResponse);
 }
 
 service NoticeService {
@@ -28,6 +29,17 @@ message StatisticsLogResponse {
   int32 code =1;
   string message =2;
   repeated StatisticsLog data=3;
+}
+
+message ApiCountResponse {
+  int32 code =1;
+  string message =2;
+  apiCount data=3;
+}
+
+message apiCount {
+  int32 total = 1;
+  int32 today =2;
 }
 
 message StatisticsLog {

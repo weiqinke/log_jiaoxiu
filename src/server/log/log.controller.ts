@@ -32,4 +32,10 @@ export class LogController {
     const data = await this.logService.apistatistics(payload);
     return { code: 200, message: '操作成功', data };
   }
+
+  @GrpcMethod('LogService')
+  async ApiCount(payload: any): Promise<any> {
+    const data = await this.logService.apiCount(payload);
+    return { code: 200, message: '操作成功', data };
+  }
 }
