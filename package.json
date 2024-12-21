@@ -17,9 +17,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prc": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=. ./simple.proto"
+    "protoc": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto.ps1 --ts_proto_out=./  -I=./  ./src/protobufs/*.proto"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.2.3",
     "@grpc/grpc-js": "^1.9.14",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^10.3.1",
@@ -28,15 +29,17 @@
     "@nestjs/microservices": "^10.3.1",
     "@nestjs/platform-express": "^10.3.1",
     "@nestjs/typeorm": "^10.0.1",
+    "@protobuf-ts/plugin": "^2.9.4",
     "axios": "^1.6.7",
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.13",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.0",
-    "protobufjs": "^7.2.6",
+    "protobufjs": "^7.4.0",
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1",
     "simple-flakeid": "^0.0.5",
-    "ts-proto": "^1.167.1",
+    "ts-proto": "^2.6.0",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
